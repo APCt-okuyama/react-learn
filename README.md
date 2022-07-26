@@ -54,7 +54,10 @@ urlを取得してブラウザでアクセスして確認
 az storage account show -n myreactstorage001 -g az-react-example --query "primaryEndpoints.web" --output tsv
 ```
 
-## (補足情報) N--t.js 名前が似ているフレームワーク 
+storage の $web にファイルが確認できます。
+![image](./doc/az-storage-web.PNG)
+
+## (余談) N--t.js 名前が似ているフレームワーク 
 
 ### Next.js
 Reactをベースに開発されたJavaScriptフレームワーク  
