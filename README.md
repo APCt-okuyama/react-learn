@@ -1,9 +1,13 @@
 # react-learn
 
-reactのはじめかた
+![img](./doc/logo192.png)
 
-# env
+reactのはじめます。※期間の目安は2-3週間くらい
 
+前提：javascript, vue, angular, css, html 少しわかる人
+
+# 環境
+## version
 ```
 node -v
 v14.18.2
@@ -24,13 +28,25 @@ typescriptで実施
 ### javascript
 ```
 npx create-react-app my-app
-npm start
 ```
 
 ### typescript
 ```
 npx create-react-app my-app --template typescript
+```
+
+### ローカル実行とビルド
+```
 npm start
+npm run build
+```
+
+## version(package.json)
+```
+:
+    "react": "^18.2.0",
+    "typescript": "^4.7.4",
+:
 ```
 
 ## Azure Storageへデプロイ
@@ -46,13 +62,14 @@ az storage blob service-properties update --account-name myreactstorage001 --sta
 
 コンテンツを$webへUpload
 ```
-az storage blob upload-batch -s ./build -d $web --account-name myreactstorage001
+az storage blob upload-batch -s ./build -d $web --account-name myreactstorage001 --overwrite
 ```
 
-urlを取得してブラウザでアクセスして確認
+urlを取得
 ```
 az storage account show -n myreactstorage001 -g az-react-example --query "primaryEndpoints.web" --output tsv
 ```
+ブラウザでアクセスして確認  
 
 storage の $web にファイルが確認できます。
 ![image](./doc/az-storage-web.PNG)
