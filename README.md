@@ -33,6 +33,27 @@ npx create-react-app my-app --template typescript
 npm start
 ```
 
+## Azure Storageへデプロイ
+
+azureリソースの作成
+```
+az group create -n az-react-example -l japaneast
+az storage account create -n myreactstorage001 -g az-react-example -l westus --sku Standard_LRS
+
+# 静的な Web サイトのホスティングを有効
+az storage blob service-properties update --account-name myreactstorage001 --static-website --404-document 404.html --index-document index.html
+```
+
+コンテンツを$webへUpload
+```
+az storage blob upload-batch -s ./build -d $web --account-name myreactstorage001
+```
+
+urlを取得してブラウザでアクセスして確認
+```
+az storage account show -n myreactstorage001 -g az-react-example --query "primaryEndpoints.web" --output tsv
+```
+
 ## (補足情報) N--t.js 名前が似ているフレームワーク 
 
 ### Next.js
