@@ -102,15 +102,17 @@ class Clock2 extends React.Component<Props, MyState>{
     
     this.state = { date: new Date() };
     //this.timerID = 0;
-    this.timerID2 = undefined;
+    // this.timerID2 = undefined;
   }
 
   timerID: number = 0;
-  timerID2: NodeJS.Timer | undefined;
+  timerID2: NodeJS.Timer | undefined = undefined;
+
   //マウント
   componentDidMount(){
     this.timerID2 = setInterval(()=>this.tick(), 1000);    
   }
+  
   //アンマウント
   componentWillUnmount(){
     clearInterval(this.timerID2);
@@ -121,12 +123,119 @@ class Clock2 extends React.Component<Props, MyState>{
       date: new Date()
     });
   }
+  
+  // This syntax ensures `this` is bound within handleClick.
+  handleClick2 = () => {
+    console.log('this is:', this);
+  };
+
+  handleClick() {
+    console.log("clickされました。");
+  }
 
   render(){
     return(
-      <div>{this.state.date.toLocaleTimeString()}</div>
+      <div>
+        {/* イベントハンドラいろいろ */}
+        <button onClick={this.handleClick}>
+          click me!
+        </button>
+        <button onClick={this.handleClick2}>
+          click2 me!
+        </button>
+        <button onClick={() => console.log('click3')}>
+          click3 me!
+        </button>        
+        <h2>time:{this.state.date.toLocaleTimeString()}</h2>
+
+        <Greeting isLoggedIn={true} />
+
+        <LoginControl></LoginControl>
+      </div>
     )
   }
+}
+
+interface LoginButtonProps{
+  onClick: VoidFunction
+}
+function LoginButton(props: LoginButtonProps) {
+  return (
+    <button onClick={props.onClick}>
+      Login
+    </button>
+  );
+}
+interface LogoutButtonProps{
+  onClick: VoidFunction
+}
+function LogoutButton(props: LogoutButtonProps) {
+  return (
+    <button onClick={props.onClick}>
+      Logout
+    </button>
+  );
+}
+
+
+//ステート付きコンポーネント
+interface LoginProps{
+
+}
+interface LoginState {
+  isLoggedIn:boolean
+}
+class LoginControl extends React.Component<LoginProps, LoginState> {
+  constructor(props: Props) {
+    super(props);
+    this.handleLoginClick = this.handleLoginClick.bind(this);
+    this.handleLogoutClick = this.handleLogoutClick.bind(this);
+    this.state = {isLoggedIn: false};
+  }
+
+  handleLoginClick() {
+    this.setState({isLoggedIn: true});
+  }
+
+  handleLogoutClick() {
+    this.setState({isLoggedIn: false});
+  }
+
+  render() {
+    const isLoggedIn = this.state.isLoggedIn;
+    let button;
+    if (isLoggedIn) {
+      button = <LogoutButton onClick={this.handleLogoutClick} />;
+    } else {
+      button = <LoginButton onClick={this.handleLoginClick} />;
+    }
+
+    return (
+      <div>
+        <Greeting isLoggedIn={isLoggedIn} />
+        {button}
+      </div>
+    );
+  }
+}
+
+function UserGreeting() {
+  return <h1>Welcome back!</h1>;
+}
+
+function GuestGreeting() {
+  return <h1>Please sign up.</h1>;
+}
+
+interface GreetingProps{
+  isLoggedIn: boolean;
+}
+function Greeting(props: GreetingProps){
+  const isLoggedIn = props.isLoggedIn;
+  if (isLoggedIn) {
+    return <UserGreeting />
+  }
+  return <GuestGreeting />
 }
 
 root.render(<Clock2 name="test"/>);

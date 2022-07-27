@@ -54,7 +54,7 @@ npm run build
 azureリソースの作成
 ```
 az group create -n az-react-example -l japaneast
-az storage account create -n myreactstorage001 -g az-react-example -l westus --sku Standard_LRS
+az storage account create -n myreactstorage001 -g az-react-example -l japaneast --sku Standard_LRS
 
 # 静的な Web サイトのホスティングを有効
 az storage blob service-properties update --account-name myreactstorage001 --static-website --404-document 404.html --index-document index.html
