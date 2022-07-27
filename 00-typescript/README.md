@@ -10,17 +10,6 @@ npx tsc -v
 Version 4.7.4
 ```
 
-typescript hello world
-```
-プロジェクト作成
-npx tsc --init
-
-コンパイル(ts -> js)
-npx tsc 1.sample.ts
-
-実行
-node 1.sample.js
-```
 ## 文法で特徴的なもの
 https://future-architect.github.io/typescript-guide/
 
@@ -42,7 +31,7 @@ class List<T> {}
 
 アロー関数式
 ```
-a => console.log('これです');
+() => console.log('test')
 ```
 
 アンビエント宣言 (JavaScriptのライブラリの利用)
@@ -52,5 +41,33 @@ a => console.log('これです');
 
 ## tsc コマンド
 typescriptをjavascriptへ変換
+
+typescriptの実行
+```
+プロジェクト作成
+npx tsc --init
+
+コンパイル(ts -> js)
+npx tsc 1.sample.ts
+
+実行
+node 1.sample.js
+```
+
+設定(tsconfig.json) javascriptのバージョンやTypeScriptの型チェックのレベルを設定
+```
+{
+  "compilerOptions": {
+:
+    /* Language and Environment */
+    "target": "es2016",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+:
+    /* Type Checking */
+    "strict": true,                                      /* Enable all strict type-checking options. */
+:
+  }
+}
+
+```
 
 ## JSX 

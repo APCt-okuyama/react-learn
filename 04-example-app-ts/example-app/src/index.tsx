@@ -31,26 +31,26 @@ const element = (
   </h1>
 );
 
-function getGreeting(user: User){
-  if (user){
+function getGreeting(user: User) {
+  if (user) {
     return <h1>aaaaa</h1>
   }
-  return <h1>bbbb</h1>  
+  return <h1>bbbb</h1>
 }
 
 interface Props {
   name: string,
 }
-interface State {}
+interface State { }
 class Welcome2 extends React.Component<Props, State>{
   user: User;
-  constructor( user: User){
+  constructor(user: User) {
     super(user);
     this.user = user;
   }
 
-  render(){
-    return<div>test</div>
+  render() {
+    return <div>test</div>
   }
 }
 
@@ -83,7 +83,7 @@ const root = ReactDOM.createRoot(
 );
 
 
-function Clock(props:any){
+function Clock(props: any) {
   return (
     <div>
       <h2>{props.data.toLocaleTimeString()}</h2>
@@ -91,15 +91,15 @@ function Clock(props:any){
   );
 }
 //ステートを追加する為にクラスにする
-interface MyProps{}
-interface MyState{
+interface MyProps { }
+interface MyState {
   date: Date
 }
 
 class Clock2 extends React.Component<Props, MyState>{
-  constructor(props: Props){
+  constructor(props: Props) {
     super(props);
-    
+
     this.state = { date: new Date() };
     //this.timerID = 0;
     // this.timerID2 = undefined;
@@ -109,12 +109,12 @@ class Clock2 extends React.Component<Props, MyState>{
   timerID2: NodeJS.Timer | undefined = undefined;
 
   //マウント
-  componentDidMount(){
-    this.timerID2 = setInterval(()=>this.tick(), 1000);    
+  componentDidMount() {
+    this.timerID2 = setInterval(() => this.tick(), 1000);
   }
-  
+
   //アンマウント
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearInterval(this.timerID2);
   }
 
@@ -123,7 +123,7 @@ class Clock2 extends React.Component<Props, MyState>{
       date: new Date()
     });
   }
-  
+
   // This syntax ensures `this` is bound within handleClick.
   handleClick2 = () => {
     console.log('this is:', this);
@@ -131,10 +131,10 @@ class Clock2 extends React.Component<Props, MyState>{
 
   handleClick() {
     console.log("clickされました。");
-  }
+  };
 
-  render(){
-    return(
+  render() {
+    return (
       <div>
         {/* イベントハンドラいろいろ */}
         <button onClick={this.handleClick}>
@@ -145,18 +145,34 @@ class Clock2 extends React.Component<Props, MyState>{
         </button>
         <button onClick={() => console.log('click3')}>
           click3 me!
-        </button>        
-        <h2>time:{this.state.date.toLocaleTimeString()}</h2>
+        </button>
+        <h2>只今の時刻:<br />
+          {this.state.date.toLocaleDateString() + " " + this.state.date.toLocaleTimeString()}</h2>
 
         <Greeting isLoggedIn={true} />
 
         <LoginControl></LoginControl>
+
+        list
+        <ul>
+          {this.listItems}
+        </ul>
+
       </div>
     )
   }
+
+  mylist: number[] = [1, 2, 3, 4, 5];
+  listItems = this.mylist.map((mynumber) =>
+    //適切なkeyを設定しましょう。
+    //配列内で一意なキーを設定する
+    <li key={mynumber.toString()}>
+      {mynumber}
+    </li>
+  );
 }
 
-interface LoginButtonProps{
+interface LoginButtonProps {
   onClick: VoidFunction
 }
 function LoginButton(props: LoginButtonProps) {
@@ -166,7 +182,7 @@ function LoginButton(props: LoginButtonProps) {
     </button>
   );
 }
-interface LogoutButtonProps{
+interface LogoutButtonProps {
   onClick: VoidFunction
 }
 function LogoutButton(props: LogoutButtonProps) {
@@ -179,26 +195,26 @@ function LogoutButton(props: LogoutButtonProps) {
 
 
 //ステート付きコンポーネント
-interface LoginProps{
+interface LoginProps {
 
 }
 interface LoginState {
-  isLoggedIn:boolean
+  isLoggedIn: boolean
 }
 class LoginControl extends React.Component<LoginProps, LoginState> {
   constructor(props: Props) {
     super(props);
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleLogoutClick = this.handleLogoutClick.bind(this);
-    this.state = {isLoggedIn: false};
+    this.state = { isLoggedIn: false };
   }
 
   handleLoginClick() {
-    this.setState({isLoggedIn: true});
+    this.setState({ isLoggedIn: true });
   }
 
   handleLogoutClick() {
-    this.setState({isLoggedIn: false});
+    this.setState({ isLoggedIn: false });
   }
 
   render() {
@@ -227,10 +243,10 @@ function GuestGreeting() {
   return <h1>Please sign up.</h1>;
 }
 
-interface GreetingProps{
+interface GreetingProps {
   isLoggedIn: boolean;
 }
-function Greeting(props: GreetingProps){
+function Greeting(props: GreetingProps) {
   const isLoggedIn = props.isLoggedIn;
   if (isLoggedIn) {
     return <UserGreeting />
@@ -238,7 +254,63 @@ function Greeting(props: GreetingProps){
   return <GuestGreeting />
 }
 
-root.render(<Clock2 name="test"/>);
+class MyMainScreen extends React.Component {
+  render() {
+    return (
+      <div>
+        <Clock2 name='aaa' />
+        <MyForm />
+      </div>
+    )
+  }
+}
+
+interface IMyFormProps{}
+interface IMyFormState{
+  value:string
+}
+class MyForm extends React.Component<IMyFormProps, IMyFormState> {
+  constructor(props:IMyFormProps){
+    console.log('MyForm constractor start.');
+    super(props)
+    this.state = {value: ''}
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);    
+  }
+  
+  handleChange(event:any) {
+    console.log('start handleChange');
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event:any) {
+    console.log('start handleSubmit');    
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form>
+        <h1>フォーム：制御されたコンポーネント</h1>
+        <h2>state プロパティに保持され、setState() 関数でのみ更新</h2>
+
+        <label>
+          Name:
+          <input type="text" name="name" value={this.state.value} onChange={this.handleChange} />
+        </label>
+
+        {/* <textarea>
+          Hello there, this is some text in a text area
+        </textarea> */}
+
+        <input type="submit" value="Submit" />
+      </form>
+    )
+  }
+}
+root.render(<MyMainScreen />);
 
 // function tick(){
 //   root.render(<Clock />);

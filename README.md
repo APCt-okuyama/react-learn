@@ -74,6 +74,14 @@ az storage account show -n myreactstorage001 -g az-react-example --query "primar
 storage の $web にファイルが確認できます。
 ![image](./doc/az-storage-web.PNG)
 
+## tool
+vs codeの拡張
+
+
+chromeの拡張を入れておくとComponentの内容が確認できます。
+![image](./doc/devtools-full.gif)
+
+
 ## (余談) N--t.js 名前が似ているフレームワーク 
 
 ### Next.js
