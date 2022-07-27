@@ -25,12 +25,12 @@ typescriptで実施
 
 ## プロジェクトの作成・開始
 
-### javascript
+### JavaScript
 ```
 npx create-react-app my-app
 ```
 
-### typescript
+### TypeScript
 ```
 npx create-react-app my-app --template typescript
 ```
@@ -74,12 +74,12 @@ az storage account show -n myreactstorage001 -g az-react-example --query "primar
 storage の $web にファイルが確認できます。
 ![image](./doc/az-storage-web.PNG)
 
-## tool
-vs codeの拡張
-
+## chrome の拡張
 
 chromeの拡張を入れておくとComponentの内容が確認できます。
 ![image](./doc/devtools-full.gif)
+
+## vs code の拡張 (おすすめ)
 
 
 ## (余談) N--t.js 名前が似ているフレームワーク 
