@@ -1,15 +1,14 @@
 # React.js(TypeScript) + Admin LTE 3
 
-最近、React.js の調査を行っていて、画面回りで Admin LTE 3 というテンプレートが割と簡単に導入できたのでブログにしておきます。
+フロントエンド回りの検証をおこなっていて、React.js に Admin LTE 3 というテンプレートが簡単に導入できて利用しやすそうだったのでブログにしておきます。
 
-画面の設計はシステムの中でも利用者の目に入るもっとも重要な部分なのですが、なかなか時間がかけれないことが多いと思います。今回紹介するようなテンプレートを活用することで開発工数をかけずに一定の品質のものが作成できます。
+アプリのUIはシステムの中で唯一利用者が直接触れるもっとも重要な部分です。最近は異なる画面サイズ(PC/スマートフォン)の両方に対応することが一般的になっていますが、Bootstrap(CSSのフレームワーク)などを利用してもデザイン性などを考えるとナカナカ大変です。
+今回、紹介するようなテンプレートを活用することで工数をかけずに一定の品質のものが作成できます。
 
 ![image](../doc/adminTLE-sample.gif)
 
-参考にしたサイト
-https://www.creative-tim.com/product/material-dashboard-react
-https://www.youtube.com/watch?v=ohbF14IK6hI
-https://www.prishusoft.com/blog/integrate-adminlte-theme-to-reactjs-project.html
+オフィシャルサイト
+1. https://www.creative-tim.com/product/material-dashboard-react
 
 ## 検証した環境・必要なもの
 
@@ -30,16 +29,25 @@ admin-lteライブラリのインストール
 npm install admin-lte --save
 ````
 
+Reactのプロジェクト を TypeScript で新規作成
+```
+npx create-react-app my-admin-console --template typescript
+```
+
 ## 手順
 
-簡単に記載します。
+参考にしたサイト
+1. https://www.youtube.com/watch?v=ohbF14IK6hI
+1. https://www.prishusoft.com/blog/integrate-adminlte-theme-to-reactjs-project.html
+
+基本的には参考サイトの手順通りすすめれば問題ないですが、簡単に纏めておきます。
 
 1. AdminLTE-master.zipをダウンロードする
 1. AdminLTE-master.zip の dist, plugin フォルダ を public へコピーする
 1. AdminLTE-master.zip/index.htmlを参考に src/public/index.html へ \<link\> と \<script\> を追加する  
   \<link\>はヘッダーに追加
   \<script\>はBodyの一番最後に追加
-1. appHeader.tsx, appMenu.tsx, appDashboard.tsx, appFooter.tsx を作成し、AdminLTE-master.zip/index.htmlの内容をコピーします。
+1. appHeader.tsx, appMenu.tsx, appDashboard.tsx, appFooter.tsx を新規に作成し、AdminLTE-master.zip/index.htmlの内容をコピーします。
 AdminLTE-master.zip/index.htmlの
 　\<nav\>の部分 を appHeader へ
 　\<aside\>の部分 を appMenu　へ
@@ -48,13 +56,15 @@ AdminLTE-master.zip/index.htmlの
   それぞれコピーします。  
   このときコピーした内容はHTMLなのでJSXへ変換します。  
   変換にはvscodeの拡張機能 html to JSXを利用します。
-1. src/public/index.html の<body> に以下のクラスを指定 
+1. public/index.html の<body> に以下のクラスを指定 
 ```
-cat src/public/index.html
+cat public/index.html
 :
   <body class="hold-transition sidebar-mini layout-fixed">
 :
 ```
+adminlte.cssのclass
+
 1. App.tsxで作成したコンポーネントを読み込む
 ```
 function App() {
@@ -68,6 +78,7 @@ function App() {
   );
 }
 ```
+手順は以上です。
 
 ## 動作確認
 ```

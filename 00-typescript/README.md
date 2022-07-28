@@ -13,7 +13,7 @@ Version 4.7.4
 ## 文法で特徴的なもの
 https://future-architect.github.io/typescript-guide/
 
-構造的部分型
+### 構造的部分型
 ```
 構造体のプロパティの互換性
 独立した２つの構造体のプロパティーを比較したときに一致する項目がある場合、互換性があるとみなす
@@ -23,22 +23,34 @@ https://future-architect.github.io/typescript-guide/
 A{a:string; b:string} と B{a:string; c:string} a:string　が一致しているので互換性がある
 ```
 
-ジェネリクス
+### ジェネリクス
+型パラメーターです。
 ```
-型パラメーター
 class List<T> {}
 ```
 
-アロー関数式
+### アロー関数式
 ```
 () => console.log('test')
 ```
 
-アンビエント宣言 (JavaScriptのライブラリの利用)
+### アンビエント宣言 (JavaScriptのライブラリの利用)
 ```
 <filename>.d.ts
 ```
 
+### 「...」はスプレッド演算子
+配列の展開
+```
+function foo(x, y, z) { }
+var args = [0, 1, 2];
+foo(...args); //foo(args[0], args[1], args[2])
+```
+```
+var list = [1, 2];
+list = [0, ...list, 4];
+console.log(list); // [0,1,2,4]
+```
 ## tsc コマンド
 typescriptをjavascriptへ変換
 

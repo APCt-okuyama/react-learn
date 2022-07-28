@@ -60,8 +60,12 @@ az storage account create -n myreactstorage001 -g az-react-example -l japaneast 
 az storage blob service-properties update --account-name myreactstorage001 --static-website --404-document 404.html --index-document index.html
 ```
 
-コンテンツを$webへUpload
+ビルドしてコンテンツを$webへUpload
 ```
+# ビルド
+npm run build
+
+# $webへUpload
 az storage blob upload-batch -s ./build -d $web --account-name myreactstorage001 --overwrite
 ```
 
