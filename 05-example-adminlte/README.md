@@ -7,8 +7,8 @@
 
 ![image](../doc/adminTLE-sample.gif)
 
-オフィシャルサイト
-1. https://www.creative-tim.com/product/material-dashboard-react
+オフィシャルサイトはこちら
+https://www.creative-tim.com/product/material-dashboard-react
 
 ## 検証した環境・必要なもの
 
