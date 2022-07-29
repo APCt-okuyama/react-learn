@@ -26,6 +26,10 @@ https://developer.mozilla.org/ja/docs/Web/JavaScript/A_re-introduction_to_JavaSc
 | Contributing | 4 ||
 | FAQ | 8 ||
 
+
+React Router
+React Redux
+
 # 環境
 ## version
 ```
@@ -120,3 +124,56 @@ Node.jsサーバーサイドアプリケーション
 ### Nuxt.js (ナクスト)
 これは Vue のフレームワーク  
 SSR(サーバーサイドレンダリング)を行う為に利用
+
+## 利用できそうなUI Template
+https://mui.com/store/
+https://adminlte.io/themes/v3/
+
+## ファイル構成
+
+ポイント
+```
+ネストのしすぎを避ける, 考えすぎない
+完全に詰まった場合は、すべて 1 フォルダに入れるところから始めましょう。
+実際にはしばしば両方の方法が組み合わされて使用されます。ですので、「正しい」方法を最初から選択することはさほど重要ではありません。
+```
+
+機能別
+```
+common/
+  Avatar.js
+  Avatar.css
+  APIUtils.js
+  APIUtils.test.js
+feed/
+  index.js
+  Feed.js
+  Feed.css
+  FeedStory.js
+  FeedStory.test.js
+  FeedAPI.js
+profile/
+  index.js
+  Profile.js
+  ProfileHeader.js
+  ProfileHeader.css
+  ProfileAPI.js
+```
+ファイルタイプ別
+```
+api/
+  APIUtils.js
+  APIUtils.test.js
+  ProfileAPI.js
+  UserAPI.js
+components/
+  Avatar.js
+  Avatar.css
+  Feed.js
+  Feed.css
+  FeedStory.js
+  FeedStory.test.js
+  Profile.js
+  ProfileHeader.js
+  ProfileHeader.css
+```
