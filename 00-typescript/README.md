@@ -34,7 +34,7 @@ class List<T> {}
 () => console.log('test')
 ```
 
-### アンビエント宣言 (JavaScriptのライブラリの利用)
+### アンビエント宣言 (JavaScriptライブラリの利用の定義)
 ```
 <filename>.d.ts
 ```

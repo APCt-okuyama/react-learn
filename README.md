@@ -2,9 +2,29 @@
 
 ![img](./doc/logo192.png)
 
-reactのはじめます。※期間の目安は2-3週間くらい
+reactはじめます。※期間の目安は2-3週間くらい
 
 前提：javascript, vue, angular, css, html 少しわかる人
+
+Javescript再入門はある程度わかる。
+https://developer.mozilla.org/ja/docs/Web/JavaScript/A_re-introduction_to_JavaScript
+
+チュートリアルはVisual Studioコードで行う。
+
+## 公式ドキュメント
+
+できるだけ手を動かしながら読む。
+
+| コース | セクション数 | 備考 |
+| --- | :---: | --- |
+| Getting Started | 4 ||
+| Main Concepts | 12 ||
+| Advanced Guides | 21 ||
+| API Reference | 10 ||
+| Hooks | 8 | フックは React をクラスなしに使うための機能<br>useState, useEffect<br>他にもいろいろ追加のフックがある useReducer  |
+| テスト概要 | 3 ||
+| Contributing | 4 ||
+| FAQ | 8 ||
 
 # 環境
 ## version
