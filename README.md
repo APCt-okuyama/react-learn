@@ -23,22 +23,22 @@ https://ja.reactjs.org/docs/hello-world.html
 | Main Concepts | 12 ||
 | Advanced Guides | 21 ||
 | API Reference | 10 ||
-| Hooks | 8 | クラスなしに使うための機能 useState, useEffect...  |
+| Hooks | 8 | クラスなしでstateを利用するための機能 <br>useState, useEffect...  |
 | テスト概要 | 3 ||
 | Contributing | 4 ||
 | FAQ | 8 ||
 
 以下の２つは把握しておく。
-| ライブラリ名 | 役割 |
-| --- | --- |
-| React Router |クライアント内でのルーティング。主に画面遷移の管理。|
-| React Redux |状態(state)・データ管理を一元化<br>コンポーネント間のバケツリレーの解消。|
-※非常に良く利用されているので必須とも言える
+
+| ライブラリ名 | 役割 | 備考 |
+| --- | --- | --- |
+| React Router |クライアント内でのルーティング。主に画面遷移の管理。| 画面の遷移がある場合は必須 |
+| React Redux |状態(state)・データ管理を一元化<br>コンポーネント間のバケツリレーの解消。| ある程度の規模になる場合は必須 |
 
 ### UIの回りの知識 (css関連)
 Bootstrapなど
 
-### (Option)サーバーサイド( next js )
+### (Option) サーバーサイド( next js )
 バックエンドもreactで実装する場合。
 SSR(サーバーサイドレンダリング)を行う必要がある場合。
 
