@@ -13,7 +13,9 @@ https://developer.mozilla.org/ja/docs/Web/JavaScript/A_re-introduction_to_JavaSc
 
 ## 公式ドキュメント
 
-できるだけ手を動かしながら読む。
+https://ja.reactjs.org/docs/hello-world.html
+
+できるだけ手を動かしながら読む。※ネット上には多数参考になるサイトがあるが、公式を基本にする。
 
 | コース | セクション数 | 備考 |
 | --- | :---: | --- |
@@ -21,14 +23,24 @@ https://developer.mozilla.org/ja/docs/Web/JavaScript/A_re-introduction_to_JavaSc
 | Main Concepts | 12 ||
 | Advanced Guides | 21 ||
 | API Reference | 10 ||
-| Hooks | 8 | フックは React をクラスなしに使うための機能<br>useState, useEffect<br>他にもいろいろ追加のフックがある useReducer  |
+| Hooks | 8 | クラスなしに使うための機能 useState, useEffect...  |
 | テスト概要 | 3 ||
 | Contributing | 4 ||
 | FAQ | 8 ||
 
+以下の２つは把握しておく。
+| ライブラリ名 | 役割 |
+| --- | --- |
+| React Router |クライアント内でのルーティング。主に画面遷移の管理。|
+| React Redux |状態(state)・データ管理を一元化<br>コンポーネント間のバケツリレーの解消。|
+※非常に良く利用されているので必須とも言える
 
-React Router
-React Redux
+### UIの回りの知識 (css関連)
+Bootstrapなど
+
+### (Option)サーバーサイド( next js )
+バックエンドもreactで実装する場合。
+SSR(サーバーサイドレンダリング)を行う必要がある場合。
 
 # 環境
 ## version
@@ -44,8 +56,8 @@ npx -v
 npm : パッケージ管理ツール  
 npx : パッケージランナーツール (インストールしていないNodeパッケージもターミナルで実行可能)  
 
-windowsの方が動作が軽いのでwindowsで作業しています。
-typescriptで実施
+※windowsの方が動作が軽いのでwindowsで作業しています。
+※typescriptで実施
 
 ## プロジェクトの作成・開始
 
@@ -78,6 +90,7 @@ npm run build
 azureリソースの作成
 ```
 az group create -n az-react-example -l japaneast
+#az group delete -n az-react-example
 az storage account create -n myreactstorage001 -g az-react-example -l japaneast --sku Standard_LRS
 
 # 静的な Web サイトのホスティングを有効
