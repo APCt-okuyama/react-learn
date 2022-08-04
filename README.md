@@ -32,11 +32,16 @@ https://ja.reactjs.org/docs/hello-world.html
 
 | ライブラリ名 | 役割 | 備考 |
 | --- | --- | --- |
-| React Router |クライアント内でのルーティング。主に画面遷移の管理。| 画面の遷移がある場合は必須 |
+| React Router |クライアント内でのルーティング。主に画面遷移の管理。| 必須 |
 | React Redux |状態(state)・データ管理を一元化<br>コンポーネント間のバケツリレーの解消。| ある程度の規模になる場合は必須 |
 
 ### UIの回りの知識 (css関連)
-Bootstrapなど
+
+Bootstrap, Material UI など、最低一つ習得する
+
+### ネットワーク (REST Clinet)
+
+fetch, axios など最低一つ習得する
 
 ### (Option) サーバーサイド( next js )
 バックエンドもreactで実装する場合。
@@ -91,6 +96,8 @@ azureリソースの作成
 ```
 az group create -n az-react-example -l japaneast
 #az group delete -n az-react-example
+
+# storage
 az storage account create -n myreactstorage001 -g az-react-example -l japaneast --sku Standard_LRS
 
 # 静的な Web サイトのホスティングを有効
@@ -189,4 +196,10 @@ components/
   Profile.js
   ProfileHeader.js
   ProfileHeader.css
+```
+
+# よりAzureでの実践的な応用にむけて
+
+```
+https://github.com/Azure-Samples/js-e2e-graphql-cosmosdb-static-web-app
 ```

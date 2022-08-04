@@ -1,8 +1,7 @@
-
 [f:id:mountain1415:20220729134842p:plain]
 
 # はじめに
-こんにちは、ACS事業部の奥山です。
+こんにちは、ACS事業部の奥山です。  
 フロントエンド回りの検証をおこなっていて、React.js に Admin LTE 3 というテンプレートが簡単に導入でき利用しやすそうだったのでブログにしておきます。
 
 [f:id:mountain1415:20220729133231g:plain]
@@ -11,7 +10,8 @@
 今回、紹介するようなテンプレートを活用することで工数をかけずに一定の品質のものが作成できます。
 
 オフィシャルサイトはこちら
-https://www.creative-tim.com/product/material-dashboard-react
+[https://adminlte.io/themes/v3/:title]
+
 
 ## 検証した環境・必要なもの
 
@@ -40,8 +40,8 @@ npx create-react-app my-admin-console --template typescript
 ## 手順
 
 参考にしたサイト  
-1. https://www.youtube.com/watch?v=ohbF14IK6hI  
-1. https://www.prishusoft.com/blog/integrate-adminlte-theme-to-reactjs-project.html  
+https://www.youtube.com/watch?v=ohbF14IK6hI   
+https://www.prishusoft.com/blog/integrate-adminlte-theme-to-reactjs-project.html   
 
 基本的には参考サイトの手順通りなのですが、簡単に日本語で纏めておきます。
 
@@ -116,3 +116,6 @@ npm start
 
 ## まとめ
 今回試してみた Admin LTE 3 は感じの良い管理画面のテンプレートとして利用できそうであることが分かりました。世の中には有料・無料を含めてテンプレートが多数あります。上手く利用することで工数を抑えて品質を上げていきたいですね。
+
+# 最後に
+私達のチームでは、Azure・AKSを活用したシステムのSIや内製化のお手伝いをさせていただいております。 Azureやコンテナ技術の知見を持つエンジニアが対応いたします。ご相談等ありましたらぜひご連絡ください。
