@@ -19,6 +19,8 @@ https://docs.microsoft.com/ja-jp/azure/active-directory/develop/tutorial-v2-reac
 　
 ![image](./006.PNG)
 
+※マニフェストで "accessTokenAcceptedVersion": 2 を指定
+
 ## jwtトークンの確認について (https://jwt.io/)
 
 取得したToken（以下はアクセストークン）はDecodeして内容を確認してみる。
@@ -43,8 +45,8 @@ https://docs.microsoft.com/ja-jp/azure/active-directory/develop/tutorial-v2-reac
   "scp": "test test2", ★loginRequestで要求したScopeが確認できます★
   "sub": "xxx",
   "tid": "xxx-xx-xx-xx-xx",
-  "unique_name": "test@ap-com.co.jp",
-  "upn": "test@ap-com.co.jp",
+  "unique_name": "test@mail.co.jp",
+  "upn": "test@mail.co.jp",
   "uti": "xxx",
   "ver": "1.0"d
 }
@@ -62,6 +64,8 @@ az functionapp create -g az-react-example --consumption-plan-location japaneast 
 
 # apiをデプロイ
 func azure functionapp publish my-example-test-func --publish-local-settings -y
+# ScaleLimit=1
+az resource update --resource-type Microsoft.Web/sites -g az-react-example -n my-example-test-func/config/web --set properties.functionAppScaleLimit=1
 
 # curlで確認
 curl https://my-example-test-func.azurewebsites.net/api/hello 
@@ -117,7 +121,8 @@ hello, im working...
 
 https://myreactstorage001.z11.web.core.windows.net/
 
-Azure Active DirectoryでのSPAを利用したときに利用できるOAuth2.0の動作が確認できました。
+Azure Active Directoryでの OAuth2.0 の動作が確認できました。()
+SPAを利用したときに利用できる
 
 今回のフローRFCで定義されている 4.1. Authorization Code Grant のフローになります。 MSAL.jsライブラリを利用することで工数をかけずに実現できることがわかりました。
 
