@@ -1,51 +1,58 @@
-# azure + oauth2 + react
+# azure ad + msal.js(react)
 
 https://docs.microsoft.com/ja-jp/azure/active-directory/develop/tutorial-v2-react#get-the-completed-code-sample
+
 (PKCE と CORS を使用した承認コード フロー)
-※ PKCE（Proof Key for Code Exchange）とは、認可コード横取り攻撃への対策を目的とし、RFC7636 で定義されているOAuth2.0拡張仕様です。
+※ PKCE（Proof Key for Code Exchange）とは、認可コード横取り攻撃への対策を目的とし、RFC7636 で定義されているOAuth2.0拡張仕様。
 
 1. サンプル(ms-identity-javascript-react-spa)を動かしながら理解する
 2. サンプル(ms-identity-javascript-react-spa)に少し変更を加えてみる
 
-## アプリ登録 (my-example-react-spa)
-my-example-react-spaを登録する
-```
-認証：シングルページアプリケーションとして登録
-　リダイレクト http://localhost:3000
-```
+## AADでアプリ登録 (my-example-react-spa)
+
+アプリ登録とはAzure AD に アプリ用のサービスプリンシパルを登録すること。今回の場合はSPA用のサービスプリンシパルを作成してAzureADへログインできるようにします。
+
+・my-example-react-spaを登録する  
+・scopeを設定しておく
+
+「認証」はシングルページアプリケーションとして登録し、リダイレクトURI に http://localhost:3000 を設定します。
+　
+![image](./006.PNG)
 
 ## jwtトークンの確認について (https://jwt.io/)
 
-取得したToken（以下はアクセストークン）はDecodeして内容を確認してみましょう。
+取得したToken（以下はアクセストークン）はDecodeして内容を確認してみる。
 ```
 {
   "aud": "api://8448ce9f-6978-48b5-94c9-042e67bb8048",　★ClientIDが確認できます。★
-  "iss": "https://sts.windows.net/4029eb38-8689-465c-92e1-9464066c814c/",
+  "iss": "https://sts.windows.net/xxxxx-xxxx-xxxx-xxxx-123123123123/",
   "iat": 1659925300,
   "nbf": 1659925300,
   "exp": 1659930624,
   "acr": "1",
-  "aio": "ATQAy/8TAAAAsMcCOu/QPKTefUGTRThv4lSpcy2GEn4E5blBAgFDihxo/QGfWmxep6NTq/ChLvNJ",
+  "aio": "xxxxx",
   "amr": [
     "pwd"
   ],
-  "appid": "8448ce9f-6978-48b5-94c9-042e67bb8048",
+  "appid": "12341234-1234-48b5-1233-123123123",
   "appidacr": "0",
   "ipaddr": "14.132.153.117",
-  "name": "奥山 拓弥",
-  "oid": "d79c183b-899e-4700-9e31-daed46ee561b",
-  "rh": "0.AUkAOOspQImGXEaS4ZRkBmyBTJ_OSIR4abVIlMkELme7gEhJAMA.",
+  "name": "TEST TEST",
+  "oid": "xxxx",
+  "rh": "0.xxxx.",
   "scp": "test test2", ★loginRequestで要求したScopeが確認できます★
-  "sub": "KG5mf4Tj9jo_0W15ufwgLTN1lfEIA2TYzHNmBeCXhps",
-  "tid": "4029eb38-8689-465c-92e1-9464066c814c",
-  "unique_name": "t_okuyama@ap-com.co.jp",
-  "upn": "t_okuyama@ap-com.co.jp",
-  "uti": "9TJBv-Ry-EijFSxRYf5FAA",
+  "sub": "xxx",
+  "tid": "xxx-xx-xx-xx-xx",
+  "unique_name": "test@ap-com.co.jp",
+  "upn": "test@ap-com.co.jp",
+  "uti": "xxx",
   "ver": "1.0"
 }
 ```
 
-## API Managementとの連携
+## API Managementと連携させてTokenを検証する
+
+![image](./005.PNG)
 
 テスト用のfunctionを用意する
 ```
@@ -107,4 +114,39 @@ hello, im working...
 ```
 
 # まとめ
-今回はAzure Active DirectoryでのSPAを利用したときに利用できる
+
+https://myreactstorage001.z11.web.core.windows.net/
+
+Azure Active DirectoryでのSPAを利用したときに利用できるOAuth2.0の動作が確認できました。
+
+今回のフローRFCで定義されている 4.1. Authorization Code Grant のフローになります。 MSAL.jsライブラリを利用することで工数をかけずに実現できることがわかりました。
+
+4.1. Authorization Code Grantのフロー
+```
+     +----------+
+     | Resource |
+     |   Owner  |
+     |          |
+     +----------+
+          ^
+          |
+         (B)
+     +----|-----+          Client Identifier      +---------------+
+     |         -+----(A)-- & Redirection URI ---->|               |
+     |  User-   |                                 | Authorization |
+     |  Agent  -+----(B)-- User authenticates --->|     Server    |
+     |          |                                 |               |
+     |         -+----(C)-- Authorization Code ---<|               |
+     +-|----|---+                                 +---------------+
+       |    |                                         ^      v
+      (A)  (C)                                        |      |
+       |    |                                         |      |
+       ^    v                                         |      |
+     +---------+                                      |      |
+     |         |>---(D)-- Authorization Code ---------'      |
+     |  Client |          & Redirection URI                  |
+     |         |                                             |
+     |         |<---(E)----- Access Token -------------------'
+     +---------+       (w/ Optional Refresh Token)
+        
+```

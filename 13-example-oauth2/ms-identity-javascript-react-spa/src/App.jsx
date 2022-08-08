@@ -35,7 +35,7 @@ const ProfileContent = () => {
                 <Button variant="secondary" onClick={RequestProfileData}>Request Profile Information</Button>
             }
 
-            <Button onClick={requestAPICall}>確認の為にtokenをつけてAPIをCallする</Button>
+            <Button onClick={requestAPICall}>確認の為にtokenをつけてAPIをCallします。</Button>
         </>
     );
 

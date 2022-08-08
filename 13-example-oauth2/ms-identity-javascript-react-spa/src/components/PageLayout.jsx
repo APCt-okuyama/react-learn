@@ -24,6 +24,7 @@ export const PageLayout = (props) => {
                 { isAuthenticated ? <SignOutButton /> : <SignInButton /> }
             </Navbar>
             <h5><center>Welcome to the Microsoft Authentication Library For Javascript - React Quickstart</center></h5>
+            <h5><center>ログイン処理が成功するとボタンが表示されます。</center></h5>
             <br />
             <br />
             {props.children}

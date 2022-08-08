@@ -218,7 +218,42 @@ az storage blob upload-batch -s ./build -d $web --account-name myreactstorage001
 
 1. アプリの登録(Azure Active Directory)
 ![image](../doc/functions_aad_auth.PNG)
+
+ba7b5d2c-6e0e-4d06-9b32-f59d199e9fdf
+
+```
+export TENANT_ID=$(az account show --query tenantId --output tsv)
+
+export TENANT_ID=<your tenant id>
+az login --tenant $TENANT_ID --allow-no-subscriptions
+# Specify the new app name
+export API_APP_NAME=<app name>
+
+# Collect information about your tenant
+export FEDERATION_METADATA_URL="https://login.microsoftonline.com/$TENANT_ID/FederationMetadata/2007-06/FederationMetadata.xml"
+export ISSUER_URL=$(curl $FEDERATION_METADATA_URL --silent | sed -n 's/.*entityID="\([^"]*\).*/\1/p')
+
+# Create the application registration, defining a new application role and requesting access to read a user using the Graph API
+export API_APP_ID=$(az ad app create --display-name $API_APP_NAME --oauth2-allow-implicit-flow true \
+--native-app false --reply-urls http://localhost --identifier-uris "http://$API_APP_NAME" \
+--app-roles '  [ {  "allowedMemberTypes": [ "User" ], "description":"Access to device status", "displayName":"Get Device Status", "isEnabled":true, "value":"GetStatus" }]' \
+--required-resource-accesses '  [ {  "resourceAppId": "00000003-0000-0000-c000-000000000000", "resourceAccess": [ { "id": "e1fe6dd8-ba31-4d61-89e7-88639da4683d", "type": "Scope" } ] }]' \
+--query appId --output tsv)
+export IDENTIFIER_URI=$(az ad app show --id $API_APP_ID --query identifierUris[0] -o tsv)
+
+# Create a service principal for the registered application
+az ad sp create --id $API_APP_ID
+az ad sp update --id $API_APP_ID --add tags "WindowsAzureActiveDirectoryIntegratedApp"
+```
+
 2. APIMの設定
+Functionsをインポートする
+製品に追加する
+(確認)
+```
+curl -H "Ocp-Apim-Subscription-Key: xxxx " https://my-example-apim.azure-api.net/login
+```
+JWT検証ポリシーを構成
 
 3. Client(JS)アプリでMSAL.jsを利用してログイン処理を行う
 

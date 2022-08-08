@@ -14,7 +14,8 @@ export const msalConfig = {
     auth: {
         clientId: "8448ce9f-6978-48b5-94c9-042e67bb8048",
         authority: "https://login.microsoftonline.com/4029eb38-8689-465c-92e1-9464066c814c",
-        redirectUri: "http://localhost:3000"
+        //redirectUri: "http://localhost:3000"
+        redirectUri: "https://myreactstorage001.z11.web.core.windows.net/"        
     },
     cache: {
         cacheLocation: "sessionStorage", // This configures where your cache will be stored
