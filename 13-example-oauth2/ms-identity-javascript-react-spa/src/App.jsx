@@ -7,6 +7,8 @@ import { callMsGraph } from "./graph";
 import Button from "react-bootstrap/Button";
 import "./styles/App.css";
 
+const axios = require('axios').default;
+
 /**
  * Renders information about the signed-in user or a button to retrieve data about the user
  */
@@ -32,8 +34,38 @@ const ProfileContent = () => {
                 :
                 <Button variant="secondary" onClick={RequestProfileData}>Request Profile Information</Button>
             }
+
+            <Button onClick={requestAPICall}>確認の為にtokenをつけてAPIをCallする</Button>
         </>
     );
+
+    function requestAPICall() {
+        console.log('start requestAPICall ...');
+        // Silently acquires an access token which is then attached to a request for MS Graph data
+        instance.acquireTokenSilent({
+            ...loginRequest,
+            account: accounts[0]
+        }).then((response) => {
+            callMyAPI(response.accessToken);
+            //callMsGraph(response.accessToken).then(response => setGraphData(response));
+        });
+    }
+
+    function callMyAPI(accessToken){
+        console.log('start callMyAPI ...');
+        axios.get('https://my-example-apim.azure-api.net/hello',{
+            headers: {'authorization': 'Bearer ' + accessToken}
+        }).then(function (response) {
+            console.log('handle success');
+            console.log(response);
+        }).catch(function (error) {
+            console.log('handle error');
+            console.log(error);
+        })
+        .then(function () {
+            // always executed
+        });
+    }
 };
 
 /**
