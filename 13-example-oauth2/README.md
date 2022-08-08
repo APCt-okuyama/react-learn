@@ -104,7 +104,20 @@ api の inbound設定例 (jwt validation　と cors)
         <base />
     </inbound>
 ```
-
+(例) scopeが全部一致した場合の指定
+```
+                <claim name="scp" match="all">
+                    <value>test test2</value>
+                </claim>
+```
+(例) scopeの一部一致した場合の指定
+```
+                <claim name="scp" match="any">
+                    <value>test</value>
+                    <value>test2</value>
+                    <value>test test2</value>
+                </claim>
+```
 ## tokenの確認
 
 curlコマンド
