@@ -46,11 +46,11 @@ https://docs.microsoft.com/ja-jp/azure/active-directory/develop/tutorial-v2-reac
   "unique_name": "test@ap-com.co.jp",
   "upn": "test@ap-com.co.jp",
   "uti": "xxx",
-  "ver": "1.0"
+  "ver": "1.0"d
 }
 ```
 
-## API Managementと連携させてTokenを検証する
+## (認可コードフロー) API Managementと連携させてTokenを検証する
 
 ![image](./005.PNG)
 
