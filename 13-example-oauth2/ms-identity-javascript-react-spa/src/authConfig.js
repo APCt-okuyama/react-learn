@@ -14,8 +14,8 @@ export const msalConfig = {
     auth: {
         clientId: "8448ce9f-6978-48b5-94c9-042e67bb8048",
         authority: "https://login.microsoftonline.com/4029eb38-8689-465c-92e1-9464066c814c",
-        //redirectUri: "http://localhost:3000"
-        redirectUri: "https://myreactstorage001.z11.web.core.windows.net/"        
+        redirectUri: "http://localhost:3000"
+        //redirectUri: "https://myreactstorage001.z11.web.core.windows.net/"        
     },
     cache: {
         cacheLocation: "sessionStorage", // This configures where your cache will be stored
@@ -53,11 +53,18 @@ export const msalConfig = {
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
  */
 export const loginRequest = {
-    //scopes: ["User.Read"]
-    scopes: [
-        "api://8448ce9f-6978-48b5-94c9-042e67bb8048/test",
-        "api://8448ce9f-6978-48b5-94c9-042e67bb8048/test2"        
-    ]
+    scopes: ["User.Read"]    
+    // scopes: [
+    //     "api://8448ce9f-6978-48b5-94c9-042e67bb8048/test",
+    //     "api://8448ce9f-6978-48b5-94c9-042e67bb8048/test2"        
+    // ]
+    //存在しないScopeを指定するとログイン時にエラーになる
+    //scopeが無効のときはOK...
+    /*
+        ServerError: invalid_client: AADSTS65005: 
+        The application '8448ce9f-6978-48b5-94c9-042e67bb8048' 
+        asked for scope 'test2' that doesn't exist.    
+    */
 };
 
 /**

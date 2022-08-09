@@ -17,6 +17,7 @@ const ProfileContent = () => {
     const [graphData, setGraphData] = useState(null);
 
     function RequestProfileData() {
+        console.log('loginRequest');
         // Silently acquires an access token which is then attached to a request for MS Graph data
         instance.acquireTokenSilent({
             ...loginRequest,
@@ -28,7 +29,8 @@ const ProfileContent = () => {
 
     return (
         <>
-            <h5 className="card-title">Welcome {accounts[0].name}</h5>
+            {/* <h5 className="card-title">Welcome {accounts[0].name}</h5> */}
+            <h5 className="card-title">Welcome Test TEST</h5>            
             {graphData ? 
                 <ProfileData graphData={graphData} />
                 :
@@ -41,6 +43,8 @@ const ProfileContent = () => {
 
     function requestAPICall() {
         console.log('start requestAPICall ...');
+        console.log('...loginRequest');
+        console.log({...loginRequest});        
         // Silently acquires an access token which is then attached to a request for MS Graph data
         instance.acquireTokenSilent({
             ...loginRequest,
