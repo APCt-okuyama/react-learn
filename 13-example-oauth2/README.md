@@ -5,35 +5,35 @@
 Azureでの認証・認可について、Azure Active Directory(AAD) を使った「認可コードフロー」の実装を検証しました。
 
 「認証・認可の処理をバックエンド処理から切り離す」ことで、以下を実現します。  
-・バックエンド側の開発は業務ロジックに専念することができるようになる
-・認証・認可の処理を一元管理できる
+・バックエンド側の開発は業務ロジックに専念することができるようになる  
+・認証・認可の処理を一元管理できる  
 
-(処理内容)
-① Single Page Application(SPA) は MSAL.js を利用して認可コードフローを使ってTokenを取得する
-② SPA は取得したTokenをヘッダーに設定してAPI Managementへリクエストを要求する
-③ API Management は Token を検証しバックエンドにリクエストを通す
+(処理内容)  
+① Single Page Application(SPA) は MSAL.js を利用して認可コードフローを使ってTokenを取得する  
+② SPA は取得したTokenをヘッダーに設定してAPI Managementへリクエストを要求する  
+③ API Management は Token を検証しバックエンドにリクエストを通す  
 
-今回検証した内容を図で表すと下記のようになります。
+検証した内容を図で表すと下記のようになります。
 ![image](./005.PNG)
 
 ## AADでアプリ登録 (my-example-react-spa)
 
-まずは検証で利用するアプリ(SPA)をAADのアプリ登録から登録します。
+まずは検証で利用するアプリ(SPA)をAADのアプリ登録から登録します。  
 アプリ登録とはAzure AD に アプリ用のサービスプリンシパルを登録すること。今回の場合はアプリ登録後にSPA用のサービスプリンシパルが作成されてAzureADへログインできるようになります。
 
-(登録内容)
-・scopeを設定しておく
-・「認証」はシングルページアプリケーションとして登録し、リダイレクトURI に http://localhost:3000 を設定
+(登録内容)  
+・scopeを設定しておく  
+・「認証」はシングルページアプリケーションとして登録し、リダイレクトURI に http://localhost:3000 を設定  
 ※ my-example-react-spaという名前で登録しました。　
-※ 今回は v2エンドポイントを利用するので マニフェストで "accessTokenAcceptedVersion": 2 を指定
+※ 今回は v2エンドポイントを利用するので マニフェストで "accessTokenAcceptedVersion": 2 を指定  
 ![image](./006.PNG)
 
 ## 検証に利用したアプリ (ms-identity-javascript-react-spa)
-このチュートリアルで公開しているコードサンプルを利用します。
-https://docs.microsoft.com/ja-jp/azure/active-directory/develop/tutorial-v2-react
 
+チュートリアルで公開しているコードサンプルを利用します。  
+https://docs.microsoft.com/ja-jp/azure/active-directory/develop/tutorial-v2-react
 (PKCE と CORS を使用した承認コード フロー)
-※ PKCE（Proof Key for Code Exchange）とは、認可コード横取り攻撃への対策を目的とし、RFC7636 で定義されているOAuth2.0拡張仕様。
+※ PKCE（Proof Key for Code Exchange）とは、認可コード横取り攻撃への対策を目的とし、RFC7636 で定義されているOAuth2.0拡張仕様。  
 
 サンプル(ms-identity-javascript-react-spa)は設定を変更するだけで簡単に利用できるようなっています。ログインに成功すると以下のように「Request Profile Information」というボタンが表示されます。
 ![image](./012_msal-sample-react.gif)
@@ -41,7 +41,7 @@ https://docs.microsoft.com/ja-jp/azure/active-directory/develop/tutorial-v2-reac
 デフォルトではブラウザの session storage に token が入っていることが確認できます。
 ![image](./013_token.PNG)
 
-● 設定変更について(src/authConfig.js)
+### 設定変更について(src/authConfig.js)
 以下でログイン時に要求する scope を指定します。
 ```
 :
