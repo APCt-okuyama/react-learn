@@ -179,13 +179,7 @@ Azure Active Directory と MSAL.jsライブラリ を利用することで工数
 RFC 6749 (https://tex2e.github.io/rfc-translater/html/rfc6749.html)に書かれている内容を確認しながら進めましたが正直なかなか理解に苦しむことが多かったです。認証・認可はシステムの重要な部分なので学習を継続したいと思います。
 
 
-
-
-
-
-
-
-
+# 以下はメモです。
 
 ```
 # Storage と FunctionApp
