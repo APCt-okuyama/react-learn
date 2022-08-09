@@ -17,7 +17,7 @@ Azureでの認証・認可について、Azure Active Directory(AAD) を使っ�
 
 ## AADでアプリ登録 (my-example-react-spa)
 
-検証で利用するアプリ(SPA)をAADのアプリ登録から登録します。
+まずは検証で利用するアプリ(SPA)をAADのアプリ登録から登録します。
 アプリ登録とはAzure AD に アプリ用のサービスプリンシパルを登録すること。今回の場合はアプリ登録後にSPA用のサービスプリンシパルが作成されてAzureADへログインできるようになります。
 
 (登録内容)
@@ -27,8 +27,6 @@ Azureでの認証・認可について、Azure Active Directory(AAD) を使っ�
 ※マニフェストで "accessTokenAcceptedVersion": 2 を指定
 ![image](./006.PNG)
 
-
-
 ## 検証に利用したアプリ (ms-identity-javascript-react-spa)
 このチュートリアルで公開しているコードサンプルを利用します。
 https://docs.microsoft.com/ja-jp/azure/active-directory/develop/tutorial-v2-react
@@ -36,9 +34,8 @@ https://docs.microsoft.com/ja-jp/azure/active-directory/develop/tutorial-v2-reac
 (PKCE と CORS を使用した承認コード フロー)
 ※ PKCE（Proof Key for Code Exchange）とは、認可コード横取り攻撃への対策を目的とし、RFC7636 で定義されているOAuth2.0拡張仕様。
 
-サンプル(ms-identity-javascript-react-spa)は設定を変更するだけで簡単に利用できるようなっています。
-
-
+サンプル(ms-identity-javascript-react-spa)は設定を変更するだけで簡単に利用できるようなっています。ログインに成功すると以下のように「Request Profile Information」というボタンが表示されます。
+![image](./012_msal-sample-react.gif)
 
 ● 設定変更について(src/authConfig.js)
 以下でログイン時に要求する scope を指定します。
