@@ -1,11 +1,12 @@
 # azure ad + msal.js(react)
 
+ぶろぐにしよかな。
+
 Azureでの認証・認可について、Azure Active Directory(AAD) を使った「認可コードフロー」の実装を検証しました。
 
 目的は「認証・認可の処理をバックエンド処理から切り離す」ことで、以下を実現します。  
 ・バックエンド側の開発は業務ロジックに専念することができるようになる
 ・認証・認可の処理を一元管理できる
-
 
 (処理内容)
 ① Single Page Application(SPA) は MSAL.js を利用して認可コードフローを使ってTokenを取得する
@@ -52,7 +53,7 @@ export const loginRequest = {
 ```
 
 ## jwtトークンの確認について (https://jwt.io/)
-検証作業中にTokenの内容を確認したくなった場合は、`https://jwt.io/` で token をDecodeして内容を確認しすることができます。
+検証作業中にTokenの内容を確認したい場合は、https://jwt.io/ で token をDecodeして内容を確認しすることができます。
 ```
 {
   "aud": "api://xxxxxx-xxxx-xxxxx-xxxx-xxxxxxxxxx",　★ClientIDが確認できます。★
@@ -67,7 +68,7 @@ export const loginRequest = {
   ],
   "appid": "12341234-1234-48b5-1233-123123123",
   "appidacr": "0",
-  "ipaddr": "14.132.153.117",
+  "ipaddr": "1.2.3.4",
   "name": "TEST TEST",
   "oid": "xxxx",
   "rh": "0.xxxx.",
@@ -114,7 +115,10 @@ api management の inbound 設定で cors, validation-jwt を追加します。
     </inbound>
 ```
 
-(補足) scopeを検証したい場合は以下のように設定することができます。
+### (補足) API Management の Policy 設定
+※ 検証する項目は自由に変更可能です。
+
+ scopeを検証したい場合は以下のように設定することができます。
 (例) scopeが全部一致した場合の指定
 ```
                 <claim name="scp" match="all">
@@ -129,7 +133,14 @@ api management の inbound 設定で cors, validation-jwt を追加します。
                     <value>test test2</value>
                 </claim>
 ```
-※ 検証する項目は自由に変更可能です。
+(例) jwt token から値を取り出してBackendに転送することも可能
+この例では jwt token から aud を取り出して header名:mytest-aud としてバックエンドに転送します。
+```
+        <set-header name="mytest-aud" exists-action="override">
+            <value>@(context.Request.Headers["authorization"].First().Split(' ')[1].AsJwt()?.Claims["aud"].FirstOrDefault())</value>
+        </set-header>
+```
+※ @(expression) , @{expression} は C# 式ステートメント 詳しくは[こちら](https://docs.microsoft.com/ja-jp/azure/api-management/api-management-policy-expressions)へ。
 
 ## 確認
 ※ サンプルアプリケーションにボタンを一つ追加して、ボタンが押されたときにAPIを呼び出すように修正しています。
