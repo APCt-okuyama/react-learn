@@ -4,7 +4,7 @@
 
 Azureでの認証・認可について、Azure Active Directory(AAD) を使った「認可コードフロー」の実装を検証しました。
 
-目的は「認証・認可の処理をバックエンド処理から切り離す」ことで、以下を実現します。  
+「認証・認可の処理をバックエンド処理から切り離す」ことで、以下を実現します。  
 ・バックエンド側の開発は業務ロジックに専念することができるようになる
 ・認証・認可の処理を一元管理できる
 
@@ -25,7 +25,7 @@ Azureでの認証・認可について、Azure Active Directory(AAD) を使っ�
 ・scopeを設定しておく
 ・「認証」はシングルページアプリケーションとして登録し、リダイレクトURI に http://localhost:3000 を設定
 ※ my-example-react-spaという名前で登録しました。　
-※マニフェストで "accessTokenAcceptedVersion": 2 を指定
+※ 今回は v2エンドポイントを利用するので マニフェストで "accessTokenAcceptedVersion": 2 を指定
 ![image](./006.PNG)
 
 ## 検証に利用したアプリ (ms-identity-javascript-react-spa)
