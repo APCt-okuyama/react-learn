@@ -4,9 +4,9 @@
 
 Azureでの認証・認可について、Azure Active Directory(AAD) を使った「認可コードフロー」の実装を検証しました。
 
-「認証・認可の処理をバックエンド処理から切り離す」ことで、以下を実現します。  
-・バックエンド側の開発は業務ロジックに専念することができるようになる  
+AAD,API Managementを利用して「認証・認可の処理をバックエンド処理から切り離す」ことで、以下を実現します。  
 ・認証・認可の処理を一元管理できる  
+・バックエンド側の開発は業務ロジックに専念することができるようになる  
 
 (処理内容)  
 ① Single Page Application(SPA) は MSAL.js を利用して認可コードフローを使ってTokenを取得する  
@@ -86,7 +86,7 @@ export const loginRequest = {
 
 今回はテスト用にfunction(http trigger)を用意し、API Management で token の validation を行います。
 細かい手順は省略しますが、図にしておきます。
-![image](./005-2.PNG)
+![image](./005_2.PNG)
 
 api management の inbound 設定で cors, validation-jwt を追加します。
 ```
