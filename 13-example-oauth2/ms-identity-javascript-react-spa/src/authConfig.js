@@ -53,11 +53,11 @@ export const msalConfig = {
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
  */
 export const loginRequest = {
-    scopes: ["User.Read"]    
-    // scopes: [
-    //     "api://8448ce9f-6978-48b5-94c9-042e67bb8048/test",
+    //scopes: ["User.Read"]    
+    scopes: [
+        "api://8448ce9f-6978-48b5-94c9-042e67bb8048/test"
     //     "api://8448ce9f-6978-48b5-94c9-042e67bb8048/test2"        
-    // ]
+    ]
     //存在しないScopeを指定するとログイン時にエラーになる
     //scopeが無効のときはOK...
     /*

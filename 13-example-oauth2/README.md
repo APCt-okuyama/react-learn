@@ -37,6 +37,9 @@ https://docs.microsoft.com/ja-jp/azure/active-directory/develop/tutorial-v2-reac
 サンプル(ms-identity-javascript-react-spa)は設定を変更するだけで簡単に利用できるようなっています。ログインに成功すると以下のように「Request Profile Information」というボタンが表示されます。
 ![image](./012_msal-sample-react.gif)
 
+デフォルトではブラウザの session storage に token が入っていることが確認できます。
+![image](./013_token.PNG)
+
 ● 設定変更について(src/authConfig.js)
 以下でログイン時に要求する scope を指定します。
 ```
