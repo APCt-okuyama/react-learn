@@ -1,6 +1,6 @@
-# azure ad + msal.js(react)
-
-タイトル：Azure Active Directory + OAuth2.0(認可コード)
+[f:id:mountain1415:20220810104954p:plain]
+# はじめに
+こんにちは、ACS事業部の奥山です。
 
 Azureでの認証・認可について、Azure Active Directory(Azure AD) を使った「認可コードフロー」の実装を検証しましたのでブログとして纏めておきます。
 
@@ -10,11 +10,11 @@ Azure AD,API Managementを利用することで認証・認可の処理をバッ
 ・認証・認可の処理を一元管理できる  
 ・バックエンド側の開発は業務ロジックに専念することができるようになる  
 
-## 処理内容
-![image](./005.PNG)
+## 処理の流れ
 ① Single Page Application(SPA) は MSAL.js を利用して認可コードフローを使ってTokenを取得する  
 ② SPA は取得したTokenをヘッダーに設定してAPI Managementへリクエストを要求する  
 ③ API Management は Token を検証しバックエンドにリクエストを通す  
+[f:id:mountain1415:20220810103228p:plain]
 
 ## まずは、AADでアプリ登録 (my-example-react-spa)
 
@@ -26,20 +26,21 @@ Azure AD,API Managementを利用することで認証・認可の処理をバッ
 ・「認証」はシングルページアプリケーションとして登録し、リダイレクトURI に http://localhost:3000 を設定  
 ※ my-example-react-spaという名前で登録しました。　
 ※ 今回は v2エンドポイントを利用するので マニフェストで "accessTokenAcceptedVersion": 2 を指定  
-![image](./006.PNG)
+[f:id:mountain1415:20220810103302p:plain]
 
 ## 検証に利用したアプリ (ms-identity-javascript-react-spa)
 
-チュートリアルで公開しているコードサンプルを利用します。  
-https://docs.microsoft.com/ja-jp/azure/active-directory/develop/tutorial-v2-react
-(PKCE と CORS を使用した承認コード フロー)
+チュートリアルで公開しているコードサンプル(react js)を利用します。  
+https://docs.microsoft.com/ja-jp/azure/active-directory/develop/tutorial-v2-react  
+(PKCE と CORS を使用した認可コード フロー)  
 ※ PKCE（Proof Key for Code Exchange）とは、認可コード横取り攻撃への対策を目的とし、RFC7636 で定義されているOAuth2.0拡張仕様。  
 
-サンプル(ms-identity-javascript-react-spa)は設定を変更するだけで簡単に利用できるようなっています。ログインに成功すると以下のように「Request Profile Information」というボタンが表示されます。
-![image](./012_msal-sample-react.gif)
+サンプル(ms-identity-javascript-react-spa)は設定を変更するだけで簡単に利用できるようなっています。  
+ログインに成功すると以下のように「Request Profile Information」というボタンが表示されます。  
+[f:id:mountain1415:20220810103332g:plain]
 
 デフォルトではブラウザの session storage に token が入っていることが確認できます。
-![image](./013_token.PNG)
+[f:id:mountain1415:20220810103442p:plain]
 
 ### 設定変更について(src/authConfig.js)
 以下でログイン時に要求する scope を指定します。
@@ -86,7 +87,7 @@ export const loginRequest = {
 
 今回はテスト用にfunction(http trigger)を用意し、API Management で token の validation を行います。
 細かい手順は省略しますが、図にしておきます。
-![image](./005_2.PNG)
+[f:id:mountain1415:20220810103524p:plain]
 
 api management の inbound 設定で cors, validation-jwt を追加します。
 ```
@@ -133,7 +134,7 @@ api management の inbound 設定で cors, validation-jwt を追加します。
                     <value>test test2</value>
                 </claim>
 ```
-(例) jwt token から値を取り出してBackendに転送することも可能
+(例) jwt token から値を取り出してBackendに転送することも可能です  
 この例では jwt token から aud を取り出して header名:mytest-aud としてバックエンドに転送します。
 ```
         <set-header name="mytest-aud" exists-action="override">
@@ -146,17 +147,17 @@ api management の inbound 設定で cors, validation-jwt を追加します。
 ※ サンプルアプリケーションにボタンを一つ追加して、ボタンが押されたときにAPIを呼び出すように修正しています。
 
 ローカルでSPAを起動 (npm start) してブラウザで確認します。
-![image](./011_confim.PNG)
+[f:id:mountain1415:20220810103626p:plain]
 
 ブラウザで確認したTokenを取り出してcurlコマンドでも実行可能です。
 ```
-curl https://my-example-apim.azure-api.net/hello -H 'authorization: Bearer eyJ0eXAxxxxx'
+curl https://xxxxxxxxxxxxxxxxxx.azure-api.net/hello -H 'authorization: Bearer eyJ0eXAxxxxx'
 hello, im working...
 ```
 
 # まとめ
 
-今回検証した内容は RFC 6749 で定義されている 「4.1. Authorization Code Grant のフロー」の実装になります。 
+今回検証した内容は RFC 6749 で定義されている 「4.1. Authorization Code Grant のフロー」の実装になります。   
 4.1. Authorization Code Grantのフロー
 ```
      +----------+
@@ -186,34 +187,8 @@ hello, im working...
      +---------+       (w/ Optional Refresh Token)
         
 ```
-RFC 6749 (https://tex2e.github.io/rfc-translater/html/rfc6749.html)に書かれている内容を確認しながら進めましたが正直なかなか理解に苦しむことが多かったです。
-ただ、実装自体はMSAL.jsライブラリ を利用することで工数をかけずに実現可能であることがわかりました。また、API Managementの token validation もある程度柔軟に対応可能であることも確認できました。「Azure Active Directory + MSAL.js + API Management」 は是非、利用したいパターンですね。
+[RFC 6749] (https://tex2e.github.io/rfc-translater/html/rfc6749.html)に書かれている内容を確認しながら進めましたが正直なかなか理解に苦しむことが多かったです。
+ただ、実装自体はMSAL.jsライブラリ を利用することで工数をかけずに実現可能であることがわかりました。また、API Managementの token validation もある程度柔軟に対応可能であることも確認できました。「Azure Active Directory + MSAL.js + API Management」 は是非、利用したいパターンです。
 
-
-
-
-# 以下はメモです。
-
-```
-# Storage と FunctionApp
-az storage account create -n funcstorage0001 -g az-react-example -l japaneast --sku Standard_LRS --kind StorageV2
-az functionapp create -g az-react-example --consumption-plan-location japaneast --runtime node --runtime-version 14 --functions-version 4 --name my-example-test-func --storage-account funcstorage0001 
-
-# apiをデプロイ
-func azure functionapp publish my-example-test-func --publish-local-settings -y
-# ScaleLimit=1
-az resource update --resource-type Microsoft.Web/sites -g az-react-example -n my-example-test-func/config/web --set properties.functionAppScaleLimit=1
-
-# curlで確認
-curl https://my-example-test-func.azurewebsites.net/api/hello 
-hello, im working...
-```
-
-API ManagementにFunctionsをインポートする
-```
-# 確認
-curl https://my-example-apim.azure-api.net/hello
-hello, im working...
-```
-
-https://myreactstorage001.z11.web.core.windows.net/
+# 最後に
+私達のチームでは、Azure・AKSを活用したシステムのSIや内製化のお手伝いをさせていただいております。 Azureやコンテナ技術の知見を持つエンジニアが対応いたします。ご相談等ありましたらぜひご連絡ください。
