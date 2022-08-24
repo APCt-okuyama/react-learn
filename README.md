@@ -110,7 +110,7 @@ az storage blob service-properties update --account-name myreactstorage001 --sta
 npm run build
 
 # $webへUpload
-az storage blob upload-batch -s ./build -d $web --account-name myreactstorage001 --overwrite
+az storage blob upload-batch -s build -d $web --account-name myreactstorage001 --overwrite
 ```
 
 urlを取得
