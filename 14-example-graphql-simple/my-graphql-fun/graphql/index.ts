@@ -1,5 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions"
-import { ApolloServer, gql } from "apollo-server-azure-functions";
+import { ApolloServer, gql } from "apollo-server-azure-functions"
 
 //scheme
 const typeDefs = gql`
