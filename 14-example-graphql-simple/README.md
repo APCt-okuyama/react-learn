@@ -132,54 +132,31 @@ https://altair.sirmuel.design/
 
 ## CRUDの例
 ### Read
-複数つなげることが可能
+all
 ```
 query {
   getAll{
     userId 
   }
+}
+```
+output
+```
+```
+
+one
+```
+query {
   getByUserId(userId:"userid1"){
     userId
   	links{id} 
   }
 }
-```
-output
-```
-{
-  "data": {
-    "getAll": [
-      {
-        "userId": "userid1"
-      },
-      {
-        "userId": "userid2"
-      },
-      {
-        "userId": "userid3"
-      }
-    ],
-    "getByUserId": [
-      {
-        "userId": "userid1",
-        "links": [
-          {
-            "id": "0"
-          },
-          {
-            "id": "2"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+
 ### Create
 ```
 mutation{
   createRecord(input:{
-    userId: "John Doe",
     description: "new create"
   }){id}
 }
@@ -197,6 +174,7 @@ mutation{
 ```
 
 ### Delete
+one
 ```
 mutation{
   deleteRecord(input:{
@@ -204,3 +182,14 @@ mutation{
   }){id}
 }
 ```
+all
+```
+mutation{
+  allPurge(input:{
+    id: "e31227b1-4790-4142-9459-0686a19bb929"
+  }){id}
+}
+```
+
+# N+1の問題について
+ORMを利用する場合は注意かな
