@@ -36,7 +36,7 @@ export const typeDefs = gql`
     }
     type Query {
         helloWorld: String!
-        getAll: [Record]!
+        getAll(maxRecord: Int): [Record]!
         getByUserId(userId: String): [Record]!
         getDetailByUserId(userId: String): [RecordDetail]!
     }

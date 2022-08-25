@@ -5,12 +5,15 @@ export class Record {
     userId: string;    
     description: string
     category: string
+    detail:[RecordDetail]
 
     constructor(id: String, {description}) {
         this.id = uuid();
         this.category = 'User';
         this.userId = uuid();
         this.description = description;
+        const newDetail = new RecordDetail(this.userId,{title:"test1", url:"test2", description:"test3",image:"test4"}); 
+        this.detail =[newDetail];
     }
 }
 

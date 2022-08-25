@@ -1,10 +1,6 @@
 # graphql on azure
 
-動作の検証を行ったので備忘録としてブログにしておきます。
-
-# 簡単に GraphQL とは
-Twitterが開発したAPIです。RESTFull API と良く比較されます。
-特徴としてはクライアント側で取得するデータを選択することが可能になる。
+RESTFull vs GraphQL
 
 ![image](../doc/graphql-restfull.png)
 
@@ -67,7 +63,7 @@ npm install graphql
 npm install uuid
 ```
 
-## apollo-server-azure-functions + cosmos db
+## graphql 単純なhello world + cosmos db
 
 必要な作業
 1. graphql用 に"Http Trigger"関数を作成する
@@ -75,15 +71,17 @@ npm install uuid
 1. リゾルバーの実装(データソースに対する処理(今回はcosmos db))
 
 参考
+```
+https://www.aaron-powell.com/posts/2020-04-07-using-graphql-in-azure-functions-to-access-cosmosdb/
+https://docs.microsoft.com/en-us/azure/developer/javascript/how-to/with-web-app/graphql/static-web-app-graphql/introduction
+```
 
 ### cosmos db用のgraphql apiを作成
-
 ※ 名前をgraphqlcosmosとして作成しています。
 ```
 func init --typescript my-graphql-fun
 func new --template "Http Trigger" --name graphqlcosmos
 ```
-
 ### スキーマ定義の作成 (typeDefs.ts)
 すべて書くと長くなってしまうので省略して記載します。
 ```
@@ -118,44 +116,32 @@ export const resolvers = {
     Query: { ... }
 }
 ```
+ソースコードはこちら
 
-ファイル構成は以下のようにしました（ソースコードはこちら）
+## 確認
+
+getall
 ```
-tree -L 
-.
-├── graphqlcosmos ★
-│   ├── data
-│   │   ├── resolvers.ts ★リゾルバの実装
-│   │   ├── typeDefs.ts　★スキーマ定義
-│   │   └── types.ts　★データモデル
-│   ├── function.json
-│   └── index.ts ★functions で ApolloServerを設定
-├── host.json
-├── local.settings.json
-├── node_modules
-├── package-lock.json
-├── package.json
-└── tsconfig.json
+curl -H 'content-type: application/json' http://localhost:7071/api/graphqlcosmos -d "{ \"query\": \"{ getAll }\" }"
 ```
 
-それでは以降で実際に動作確認して行きます(func start)。
+(確認) get by id
+```
+curl -H 'content-type: application/json' http://localhost:7071/api/graphqlcosmos -d "{ \"query\": \"{ getByUserId(userid:\"userid\"){id description} }\" }"
+```
 
-## 確認はGUIツール(altair.sirmuel.design)を利用
-cURLコマンドで以下のようにも確認できますが、少し複雑なクエリを書こうとすると文字列のエスケープなどで分かりにくくなってしまうので今回はGUIのツールをインストールして利用します。
+### corsの確認用のコマンド
+```
+npx diagnose-endpoint@1.1.0 --endpoint=http://localhost:7071/api/graphqlcosmos/
+```
 
-### https://altair.sirmuel.design/ をインストール
-altair_4.6.2_x64_win.exe をダウンロードしてインストールします。
-
-GUIツールでは主に以下が可能です。  
-・ドキュメントの確認
-・クエリの発行・確認
+## altai(GUIでのデバッグツール) で確認
+curlで少し複雑なクエリを書こうとすると文字列のエスケープなどで分かりにくくなってしまうので今回はGUIのツールをインストールして利用します。
+https://altair.sirmuel.design/
 
 ## CRUDの例
-altairを利用してデータの作成(C)、取得(R)、更新(U)、削除(D)ができることを確認します。
-
-
 ### Read
-・getAll
+all
 ```
 query {
   getAll{
@@ -163,8 +149,11 @@ query {
   }
 }
 ```
+output
+```
+```
 
-・getByUserId
+one
 ```
 query {
   getByUserId(userId:"userid1"){
@@ -172,7 +161,6 @@ query {
   	links{id} 
   }
 }
-```
 
 ### Create
 ```
@@ -195,7 +183,7 @@ mutation{
 ```
 
 ### Delete
-idを指定して1件削除
+one
 ```
 mutation{
   deleteRecord(input:{
@@ -203,18 +191,14 @@ mutation{
   }){id}
 }
 ```
-
-すべて削除（確認用）
+all
 ```
-mutation {
-  allPurge {
-    message
-  }
+mutation{
+  allPurge(input:{
+    id: "e31227b1-4790-4142-9459-0686a19bb929"
+  }){id}
 }
 ```
 
-# まとめ
-今回はCosmosDBを利用しましたがもちろん他のRDBや外部のAPIを連携することも可能です。クライアント側の実装は楽になりそうですが、その分バックエンド側の開発の負担が増えると思います。
-今回はとくにORMを利用していないのですが、ORMを利用した場合は、N+1問題への対応などを考慮する必要があります。
-Azureでは Azure Functions を利用することで簡単に始められるようになっていますのでまずは小さく初めて見るのが良いと思います。
-
+# N+1の問題について
+ORMを利用する場合は注意かな

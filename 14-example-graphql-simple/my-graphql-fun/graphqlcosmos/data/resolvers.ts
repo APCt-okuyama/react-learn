@@ -120,9 +120,29 @@ export const resolvers = {
             console.log(msg);
             return msg;
         },        
-        async getAll() {
-            console.log('start getAll...');
-            let results = await client
+        async getAll(_, {maxRecord}: {maxRecord: number}) {
+            console.log('start getAll...maxRecord:' + maxRecord);
+            if ( maxRecord ){
+                let results = await client
+                .database("my-test-db")
+                .container("my-container1")
+                .items.query({
+                    query: "SELECT TOP @maxRecord * FROM c where c.category = @category",
+                    parameters: [
+                        {
+                            name: "@category",
+                            value: "User"
+                        },
+                        {
+                            name: "@maxRecord",
+                            value: maxRecord
+                        }                        
+                    ]
+                })
+                .fetchAll();
+                return results.resources;                
+            }else{
+                let results = await client
                 .database("my-test-db")
                 .container("my-container1")
                 .items.query({
@@ -133,16 +153,11 @@ export const resolvers = {
                             value: "User"
                         }
                     ]
-                    // query: "SELECT * FROM c WHERE c.vanityUrl = @vanity",
-                    // parameters: [
-                    //     {
-                    //         name: "@vanity",
-                    //         value: vanity
-                    //     }
-                    // ]
                 })
                 .fetchAll();
-            return results.resources;
+                return results.resources;
+            }
+
             // if (results.resources.length > 0) {
             //     return results.resources[0];
             // }
