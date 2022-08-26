@@ -66,28 +66,60 @@ func -v
 4.0.4544
 ```
 
-追加したライブラリ
+追加ライブラリ(package.json)
 ```
-npm install @azure/cosmos
-npm install apollo-server-azure-functions
-npm install graphql
-npm install uuid
+:
+  "dependencies": {
+    "@azure/cosmos": "^3.16.4",
+    "apollo-server-azure-functions": "^3.10.0",
+    "graphql": "^16.5.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@azure/functions": "^3.0.0",
+    "typescript": "^4.0.0"
+  }
+:
 ```
 
-## apollo-server-azure-functions + cosmos db
+## Function作成
 
 主に必要な作業は以下の3点になります。
 1. graphql用 に"Http Trigger"関数を作成し ApolloServerを組み込む
 1. スキーマ定義ファイルを作成
 1. リゾルバーの実装(データソースに対する処理(今回はcosmos db))
 
-### cosmos db用のgraphql apiを作成
+### 関数の作成 (cosmos db用のgraphql api)
 
 ※ 名前をgraphqlcosmosとして作成しています。
 
 ```
 func init --typescript my-graphql-fun
 func new --template "Http Trigger" --name graphqlcosmos
+```
+
+function.json の outpuバインディングを以下のように変更
+```
+{
+  "bindings": [
+    {
+      "authLevel": "function",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "get",
+        "post"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "$return" ★変更
+    }
+  ],
+  "scriptFile": "../dist/graphqlcosmos/index.js"
+}
 ```
 
 index.tsの内容は以下のように単純にApolloServerを作成するだけの処理になります。
@@ -135,7 +167,7 @@ export const typeDefs = gql`
 
 ### リゾルバーの実装 (resolver.ts)
 実際にCosmosDBへアクセスしてデータを操作する処理を実装します。
-今回はこのリゾルバの中でCosmosDBへのアクセス処理を含めました。
+今回はこのリゾルバの中でCosmosDBへのアクセス処理を含めています。
 ```
 export const resolvers = {
     Mutation: { ... }
@@ -147,7 +179,7 @@ export const resolvers = {
 ```
 tree -L 
 .
-├── graphqlcosmos ★
+├── graphqlcosmos ★今回追加した関数
 │   ├── data
 │   │   ├── resolvers.ts ★リゾルバの実装
 │   │   ├── typeDefs.ts　★スキーマ定義
