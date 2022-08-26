@@ -20,22 +20,16 @@ az group create -n az-graphql-example -l japaneast
 ```
 
 ### cosmos db
-
-account作成
+account,db,containerを作成
 ```
+# account
 az cosmosdb create --name example01cosmosaccount --resource-group az-graphql-example
-```
-※地理空間データにも対応しています。
-
-db作成
-```
+# db
 az cosmosdb sql database create -a example01cosmosaccount -g az-graphql-example -n my-test-db
-```
-
-containerの作成(必要な数だけ作成する)
-```
+# container
 az cosmosdb sql container create -a example01cosmosaccount -g az-graphql-example -d my-test-db -n my-container1 -p /modelType --throughput 400
 ```
+※地理空間データにも対応しています。
 
 ### functions (Option)
 ※ functionsはローカルで実行もできるので必須ではありません。
@@ -49,7 +43,17 @@ functionsの準備ができたらfunctionsAppのデプロイします。
 func azure functionapp publish my-example-graphql-func --publish-local-settings -y
 ```
 
-# azure functions コーディング
+# azure functions コーディング 
+
+Microsoftのドキュメントとサンプルソースを参考に実装を行いました。
+[GraphQL HelloWorld](https://docs.microsoft.com/ja-jp/azure/developer/javascript/how-to/with-web-app/graphql/azure-function-hello-world?tabs=visualstudiocode)
+[GraphQL CRUD API](https://docs.microsoft.com/ja-jp/azure/developer/javascript/how-to/with-web-app/graphql/azure-function-crud-mutation?tabs=visualstudiocode)
+[GraphQL Static Web](https://docs.microsoft.com/ja-jp/azure/developer/javascript/how-to/with-web-app/graphql/static-web-app-graphql/introduction)
+
+(サンプルソース)
+[helloworld](https://github.com/Azure-Samples/js-e2e-azure-function-graphql-hello)
+[crud](https://github.com/Azure-Samples/js-e2e-azure-function-graphql-crud-operations.git)
+[Static Web](https://github.com/Azure-Samples/js-e2e-graphql-cosmosdb-static-web-app)
 
 環境
 ```
@@ -69,7 +73,7 @@ npm install uuid
 
 ## apollo-server-azure-functions + cosmos db
 
-必要な作業
+主に必要な作業は以下の3点になります。
 1. graphql用 に"Http Trigger"関数を作成する
 1. スキーマ定義ファイル
 1. リゾルバーの実装(データソースに対する処理(今回はcosmos db))
@@ -79,9 +83,27 @@ npm install uuid
 ### cosmos db用のgraphql apiを作成
 
 ※ 名前をgraphqlcosmosとして作成しています。
+
 ```
 func init --typescript my-graphql-fun
 func new --template "Http Trigger" --name graphqlcosmos
+```
+
+index.tsの内容は以下のように単純にApolloServerを作成するだけの処理になります。
+```
+import { AzureFunction, Context, HttpRequest } from "@azure/functions"
+import { ApolloServer } from "apollo-server-azure-functions"
+
+import { typeDefs } from "./data/typeDefs";
+import resolvers from "./data/resolvers";
+
+// ApolloServerを作成
+const server = new ApolloServer({ 
+    typeDefs, 
+    resolvers
+});
+
+export default server.createHandler();
 ```
 
 ### スキーマ定義の作成 (typeDefs.ts)
@@ -89,7 +111,7 @@ func new --template "Http Trigger" --name graphqlcosmos
 ```
 export const typeDefs = gql`
     input inpurtRecord {} 
-    input inpurtRecordDetail {}
+    input inputRecordDetail {}
     type Result {} 
     type Record {}
     type RecordDetail {}
@@ -104,7 +126,7 @@ export const typeDefs = gql`
         createRecord(input: inpurtRecord): Record
         updateRecord(input: inpurtRecord): Record
         deleteRecord(input: inpurtRecord): Record
-        createRecordDetail(input: inpurtRecordDetail): RecordDetail
+        createRecordDetail(input: inputRecordDetail): RecordDetail
     }
 :
 `;
@@ -112,6 +134,7 @@ export const typeDefs = gql`
 
 ### リゾルバーの実装 (resolver.ts)
 実際にCosmosDBへアクセスしてデータを操作する処理を実装します。
+今回はこのリゾルバの中でCosmosDBへのアクセス処理を含めました。
 ```
 export const resolvers = {
     Mutation: { ... }
@@ -147,15 +170,17 @@ cURLコマンドで以下のようにも確認できますが、少し複雑な�
 altair_4.6.2_x64_win.exe をダウンロードしてインストールします。
 
 GUIツールでは主に以下が可能です。  
-・ドキュメントの確認
-・クエリの発行・確認
+・(画面右)ドキュメントの確認  
+・(画面中央)クエリの結果の確認  
+・(画面左)クエリの発行  
+以下の動画のようにドキュメントからクエリを作成・発行して結果を確認することができます。
+![image](./graphql-altair-demo.gif)
+データの作成(C)、取得(R)、更新(U)、削除(D)ができることを確認でき作成されたデータはCosmosDBでも確認できます。
 
-## CRUDの例
-altairを利用してデータの作成(C)、取得(R)、更新(U)、削除(D)ができることを確認します。
+## クエリの例
+クエリの例を記載しておきます。
 
-
-### Read
-・getAll
+### Read (全件取得)
 ```
 query {
   getAll{
@@ -164,17 +189,7 @@ query {
 }
 ```
 
-・getByUserId
-```
-query {
-  getByUserId(userId:"userid1"){
-    userId
-  	links{id} 
-  }
-}
-```
-
-### Create
+### Create (新規に1件作成)
 ```
 mutation{
   createRecord(input:{
@@ -183,19 +198,18 @@ mutation{
 }
 ```
 
-### Update
+### Update (idを指定して1件更新)
 ```
 mutation{
   updateRecord(input:{
     id: "e31227b1-4790-4142-9459-0686a19bb929",
-    userId: "John Doe",
+    userId: "JohnDoe",
     description: "update description"
   }){id}
 }
 ```
 
-### Delete
-idを指定して1件削除
+### Delete (idを指定して1件削除)
 ```
 mutation{
   deleteRecord(input:{
@@ -214,7 +228,8 @@ mutation {
 ```
 
 # まとめ
-今回はCosmosDBを利用しましたがもちろん他のRDBや外部のAPIを連携することも可能です。クライアント側の実装は楽になりそうですが、その分バックエンド側の開発の負担が増えると思います。
-今回はとくにORMを利用していないのですが、ORMを利用した場合は、N+1問題への対応などを考慮する必要があります。
+
+今回はCosmosDBを利用しましたがもちろんRDBや外部のAPIを連携することも可能です。
+クライアント側の実装は楽になりそうですが、その分バックエンド側の開発の負担が増えると思います。
 Azureでは Azure Functions を利用することで簡単に始められるようになっていますのでまずは小さく初めて見るのが良いと思います。
 

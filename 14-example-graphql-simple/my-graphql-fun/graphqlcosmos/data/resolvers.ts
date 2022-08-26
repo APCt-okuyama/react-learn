@@ -9,8 +9,6 @@ const client = new CosmosClient(process.env.CosmosDBConnection);
 export const resolvers = {
 
     Mutation: {
-        //関数の定義もいろいろ
-
         //開発用に全削除
         async allPurge(_){
             console.log("all Purge start...");
@@ -19,13 +17,6 @@ export const resolvers = {
                 .container("my-container1")
                 .items.query({
                     query: "SELECT * FROM c"
-                    // query: "SELECT * FROM c where c.category = @category",
-                    // parameters: [
-                    //     {
-                    //         name: "@category",
-                    //         value: "User"
-                    //     }
-                    // ]
                 })
                 .fetchAll();
 
@@ -41,24 +32,30 @@ export const resolvers = {
                 }catch(error){
                     console.log(error);
                     throw error;
-                }                
-
+                }
             }
 
-            return {message:"allPurge has done."};
+            return {message: results.resources.length + "レコード削除しました。"};
         },
         //async 
         createRecord: async (_, {input}) =>{
             console.log("start createRecord...");
-            console.log(input);            
+            console.log(input);//[Object: null prototype] 
+            console.log(input.detail); //これは配列
 
-            const newRecord = new Record(uuid(), input);
-            newRecord.userId = uuid();
+            //（注意）inputが [Object: null prototype] となっているので、通常のobjectに変換
+            const inputObject = JSON.parse(JSON.stringify(input));
+            console.log("inputObject: " + JSON.stringify(inputObject));
+            const newRecord = new Record(uuid(), inputObject);
             console.log(newRecord);
 
+            // const userId = uuid();
+            // const newDetail = new RecordDetail(userId, input.detail[0]);
+            // console.log("newDetail:" + JSON.stringify(newDetail));
+            // newRecord.userId = userId;
             //create cosmos db item
-            console.log("create cosmos db record.");
 
+            console.log("create cosmos db record.");
             let results = await client.database("my-test-db").container("my-container1").items
                 .create(newRecord);
 
@@ -157,11 +154,6 @@ export const resolvers = {
                 .fetchAll();
                 return results.resources;
             }
-
-            // if (results.resources.length > 0) {
-            //     return results.resources[0];
-            // }
-            // return null;
         },
         async getByUserId(_, { userId }: { userId: string }) {            
             console.log('start getByUserId...:' + userId);

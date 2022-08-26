@@ -87,7 +87,7 @@ func new --template "Http Trigger" --name graphqlcosmos
 ```
 export const typeDefs = gql`
     input inpurtRecord {} 
-    input inpurtRecordDetail {}
+    input inputRecordDetail {}
     type Result {} 
     type Record {}
     type RecordDetail {}

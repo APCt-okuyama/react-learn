@@ -5,20 +5,24 @@ export class Record {
     userId: string;    
     description: string
     category: string
-    detail:[RecordDetail]
+    detail: [RecordDetail]
 
-    constructor(id: String, {description}) {
-        this.id = uuid();
+    //constructor(id: String, {description}, detail: RecordDetail) {
+    constructor(id: String, {description, detail} ) {        
+        this.id = id;
         this.category = 'User';
         this.userId = uuid();
         this.description = description;
-        const newDetail = new RecordDetail(this.userId,{title:"test1", url:"test2", description:"test3",image:"test4"}); 
-        this.detail =[newDetail];
+
+        if (detail.length){
+            console.log("detail:" + JSON.stringify(detail));            
+            console.log("add detail:" + detail.length);
+            this.detail = detail;
+        }
     }
 }
 
 export class RecordDetail {
-
     id: any
     userId: String    
     category: String
@@ -27,11 +31,14 @@ export class RecordDetail {
     description: String
     image: String
 
-    constructor(userId: String, {title, url, description, image}) {
+    constructor(userId: String, { title, url, description, image } ){
+        console.log("title:" + title);
+        console.log("url:" + url);
+
         this.id = uuid();
         this.userId = userId;        
         this.category = 'UserDetail';
-        //
+
         this.title = title;
         this.url = url;
         this.description = description;

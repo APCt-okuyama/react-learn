@@ -6,10 +6,10 @@ export const typeDefs = gql`
         id: ID
         userId: String
         description: String
-        detail: [inpurtRecordDetail]
+        detail: [inputRecordDetail]
     }
-    input inpurtRecordDetail{
-        id: String
+    input inputRecordDetail{
+        id: ID
         userId: String
         url: String
         title: String
@@ -28,7 +28,7 @@ export const typeDefs = gql`
     }
     type RecordDetail {
         id: String
-        userId: String!        
+        userId: String
         url: String
         title: String
         description: String
@@ -45,6 +45,6 @@ export const typeDefs = gql`
         createRecord(input: inpurtRecord): Record
         updateRecord(input: inpurtRecord): Record
         deleteRecord(input: inpurtRecord): Record
-        createRecordDetail(input: inpurtRecordDetail): RecordDetail
+        createRecordDetail(input: inputRecordDetail): RecordDetail
     }
 `;
