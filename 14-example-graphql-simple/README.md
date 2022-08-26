@@ -232,6 +232,6 @@ mutation {
 Azureでは Azure Functions を利用することで簡単に GraphQL を始められるようになっていることが分かりました。
 今回はCosmosDBを利用しましたがもちろんRDBや外部のAPIを連携することも可能です。
 クライアント側の実装は楽になりそうですが、その分バックエンド側の開発の負担が増える傾向にあると思います。
-GitHub が [GraphQL API](https://docs.github.com/ja/graphql) として公開しているようにデータの公開などに適していると思います。
+[GitHub が GraphQL API](https://docs.github.com/ja/graphql) として公開しているようにデータの公開などに適していると思います。
 
-Azureでは Azure Functions を利用することで簡単に利用できるので小さく初めてみてはいかがでしょうか。
+Azure Functions を利用して GraphQL を初めてみては如何でしょうか。
