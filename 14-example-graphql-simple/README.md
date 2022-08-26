@@ -1,14 +1,19 @@
 # graphql on azure
 
-動作の検証を行ったので備忘録としてブログにしておきます。
+AzureでGraphQLの動作の検証を行ったので備忘録としてブログにしておきます。
 
-# 簡単に GraphQL とは
-Twitterが開発したAPIです。RESTFull API と良く比較されます。
-特徴としてはクライアント側で取得するデータを選択することが可能になる。
+# (簡単に) GraphQL とは
+Facebookが開発したAPIで主な特徴としては
+・クライアント側で取得するデータを選択することが可能  
+・スキーマ定義を利用するのでデータの不一致を防げる
+などが上げられます。
 
+RESTFull API と良く比較されます。下の図のようにRestFull APIがパスでリソースを指定するのに対してGraphQLでは1つのエンドポイントにクエリを発行するのが大きな違いになります。
 ![image](../doc/graphql-restfull.png)
 
 # Azure で Graph QL(Cosmos DB) を利用する
+(Azureでの構成)
+![image](./az-function-graphql-cosmosdb.png)
 
 ## Azureリソースの準備
 
@@ -50,10 +55,8 @@ Microsoftのドキュメントとサンプルソースを参考に実装を行�
 [GraphQL CRUD API](https://docs.microsoft.com/ja-jp/azure/developer/javascript/how-to/with-web-app/graphql/azure-function-crud-mutation?tabs=visualstudiocode)
 [GraphQL Static Web](https://docs.microsoft.com/ja-jp/azure/developer/javascript/how-to/with-web-app/graphql/static-web-app-graphql/introduction)
 
-(サンプルソース)
-[helloworld](https://github.com/Azure-Samples/js-e2e-azure-function-graphql-hello)
-[crud](https://github.com/Azure-Samples/js-e2e-azure-function-graphql-crud-operations.git)
-[Static Web](https://github.com/Azure-Samples/js-e2e-graphql-cosmosdb-static-web-app)
+(参考にしたサンプルソース)
+[helloworld](https://github.com/Azure-Samples/js-e2e-azure-function-graphql-hello), [crud](https://github.com/Azure-Samples/js-e2e-azure-function-graphql-crud-operations.git), [Static Web](https://github.com/Azure-Samples/js-e2e-graphql-cosmosdb-static-web-app)
 
 環境
 ```
@@ -74,11 +77,9 @@ npm install uuid
 ## apollo-server-azure-functions + cosmos db
 
 主に必要な作業は以下の3点になります。
-1. graphql用 に"Http Trigger"関数を作成する
-1. スキーマ定義ファイル
+1. graphql用 に"Http Trigger"関数を作成し ApolloServerを組み込む
+1. スキーマ定義ファイルを作成
 1. リゾルバーの実装(データソースに対する処理(今回はcosmos db))
-
-参考
 
 ### cosmos db用のgraphql apiを作成
 
@@ -142,7 +143,7 @@ export const resolvers = {
 }
 ```
 
-ファイル構成は以下のようにしました（ソースコードはこちら）
+ファイル構成は以下のようにしました。
 ```
 tree -L 
 .
@@ -228,8 +229,9 @@ mutation {
 ```
 
 # まとめ
-
+Azureでは Azure Functions を利用することで簡単に GraphQL を始められるようになっていることが分かりました。
 今回はCosmosDBを利用しましたがもちろんRDBや外部のAPIを連携することも可能です。
-クライアント側の実装は楽になりそうですが、その分バックエンド側の開発の負担が増えると思います。
-Azureでは Azure Functions を利用することで簡単に始められるようになっていますのでまずは小さく初めて見るのが良いと思います。
+クライアント側の実装は楽になりそうですが、その分バックエンド側の開発の負担が増える傾向にあると思います。
+GitHub が [GraphQL API](https://docs.github.com/ja/graphql) として公開しているようにデータの公開などに適していると思います。
 
+Azureでは Azure Functions を利用することで簡単に利用できるので小さく初めてみてはいかがでしょうか。
