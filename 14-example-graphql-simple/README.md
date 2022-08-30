@@ -6,7 +6,7 @@ AzureでGraphQLの動作の検証を行ったので備忘録としてブログ�
 Facebookが開発したAPIで主な特徴としては
 ・クライアント側で取得するデータを選択することが可能  
 ・スキーマ定義を利用するのでデータの不一致を防げる
-などが上げられます。
+
 
 RESTFull API と良く比較されます。下の図のようにRestFull APIがパスでリソースを指定するのに対してGraphQLでは1つのエンドポイントにクエリを発行するのが大きな違いになります。
 ![image](../doc/graphql-restfull.png)
@@ -267,3 +267,4 @@ Azureでは Azure Functions を利用することで簡単に GraphQL を始め�
 [GitHub が GraphQL API](https://docs.github.com/ja/graphql) として公開しているようにデータの公開などに適していると思います。
 
 Azure Functions を利用して GraphQL を初めてみては如何でしょうか。
+

@@ -129,21 +129,7 @@ chromeの拡張を入れておくとComponentの内容が確認できます。
 
 ## vs code の拡張 (おすすめ)
 
-
-## (余談) N--t.js 名前が似ているフレームワーク 
-
-### Next.js
-Reactをベースに開発されたJavaScriptフレームワーク  
-Reactが Viewライブラリ なのに対して、サーバーとして動かすことが可能  
-SSR(サーバーサイドレンダリング)を行う為に利用  
-
-### Nest.js
-Node.jsサーバーサイドアプリケーション  
-内部的にはDefaultでExpressを利用している。※Fastifyに変更可能  
-
-### Nuxt.js (ナクスト)
-これは Vue のフレームワーク  
-SSR(サーバーサイドレンダリング)を行う為に利用
+あれば書く。
 
 ## 利用できそうなUI Template
 https://mui.com/store/
@@ -203,3 +189,31 @@ components/
 ```
 https://github.com/Azure-Samples/js-e2e-graphql-cosmosdb-static-web-app
 ```
+
+
+# (余談) N--t.js 名前が似ているフレームワーク 
+
+### Next.js
+Reactをベースに開発されたJavaScriptフレームワーク  
+Reactが Viewライブラリ なのに対して、サーバーとして動かすことが可能  
+SSR(サーバーサイドレンダリング)を行う為に利用  
+ページ単位でCSR,SSRを切り替え可能
+
+### Nest.js
+Node.jsサーバーサイドアプリケーション  
+内部的にはDefaultでExpressを利用している。※Fastifyに変更可能  
+
+### Nuxt.js (ナクスト)
+これは Vue のフレームワーク  
+SSR(サーバーサイドレンダリング)を行う為に利用
+SSR・SSG の指定はプロジェクト単位になる
+
+# レンダリングあれこれ
+|配信方式|レンダリング場所|デメリット|メリット|
+| --- | --- | --- | --- |
+|CSR(Client Side Rendering)|クライアント|SEOに弱い、ブラウザの負荷|ファストビュー<br>ブラウザの通信データ量が軽量|
+|SSR(Server Side Rendering)|サーバー|表示速度にレイテンシ有<br>SSR対応サーバーが必要|SEOに強い<br>重たい処理をサーバーで対応可能<br>クライアントのスペックを意識しなくてよい<br>実行結果をCDNでキャッシュ可能 (キャッシュ戦略が必要)<br>秘匿情報について、個人情報を扱う部分は CSR、扱わない部分は SSR にするなどの対応が必要|
+|SSG(Static Site Generator)|サーバー|||
+|ISR(Incremental Static Generator)|サーバー|||
+
+※SSR は動画投稿サービスや SNS、ポータルサイトなどコンテンツの更新頻度が高い Web アプリケーションが向いてる。
