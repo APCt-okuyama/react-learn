@@ -82,6 +82,11 @@ npm start
 npm run build
 ```
 
+port変更したい場合は環境変数で変更(windows)
+```
+set PORT=3006
+```
+
 ## version(package.json)
 ```
 :
